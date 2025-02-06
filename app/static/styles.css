@@ -1,0 +1,17 @@
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e1e1e;
+            color: #fff;
+        }
+        #log-container {
+            width: 90%;
+            height: 500px;
+            overflow-y: scroll;
+            border: 1px solid #444;
+            background: #000;
+            padding: 10px;
+            font-family: monospace;
+            text-align: left;
+            margin: auto;
+        }

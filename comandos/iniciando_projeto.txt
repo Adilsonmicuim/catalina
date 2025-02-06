@@ -1,0 +1,44 @@
+# Para rodar o projeto
+uvicorn app.main:app
+
+http://localhost:8000/static/index.html
+
+
+# Criar ambiente virtual usando Python 3.10:
+python3.10 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+
+
+# Salvar dependências
+pip freeze > requirements.txt
+
+# Instalar dependências
+pip install -r requirements.txt
+
+
+
+
+# Execute este comando para verificar se o Uvicorn está instalado no ambiente virtual:
+pip list | Select-String uvicorn
+
+# Se nenhum resultado aparecer, significa que o Uvicorn não está instalado. Para instalar, use:
+pip install uvicorn
+
+# Para desinstalar
+pip uninstall uvicorn
+
+
+# Você pode encontrar onde o Uvicorn está instalado (powershell) com:
+where.exe uvicorn
+
+
+
+# O pip desatualizado pode impedir a instalação de pacotes mais recentes
+pip install --upgrade pip
+pip install --upgrade setuptools wheel
+pip install -r requirements.txt
+
+
+# Se houver um erro de permissão ao atualizar o pip, tente:
+python -m pip install --upgrade pip setuptools wheel

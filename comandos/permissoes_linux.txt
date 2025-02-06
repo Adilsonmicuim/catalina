@@ -1,0 +1,11 @@
+# O Nginx normalmente roda como o usuário www-data. Para permitir que ele acesse os arquivos de log, execute:
+sudo chown -R www-data:www-data /opt/tomcat/logs/
+sudo chmod -R 755 /opt/tomcat/logs/
+
+
+# Se necessário adicionar Nginx ao Grupo do Tomcat:
+sudo usermod -aG tomcat www-data
+
+
+# Depois, reinicie o Nginx para aplicar as mudanças:
+sudo systemctl restart nginx
