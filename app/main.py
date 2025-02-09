@@ -13,10 +13,12 @@ LOG_PATH = "/opt/tomcat/logs/catalina.out"
 # Servindo arquivos estáticos
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
+
 # Servir a página inicial
 @app.get("/")
 async def serve_index():
-    return FileResponse("app/static/index.html")
+    return FileResponse("static/index.html")
+
 
 # Função para transmitir logs
 async def stream_logs(websocket: WebSocket):
@@ -26,7 +28,7 @@ async def stream_logs(websocket: WebSocket):
         return
 
     process = subprocess.Popen(["tail", "-f", LOG_PATH], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    
+
     try:
         while True:
             line = process.stdout.readline()
@@ -39,6 +41,7 @@ async def stream_logs(websocket: WebSocket):
         process.terminate()
         await websocket.close()
 
+
 # Endpoint do WebSocket
 @app.websocket("/ws/logs")
 async def websocket_endpoint(websocket: WebSocket):
@@ -46,7 +49,8 @@ async def websocket_endpoint(websocket: WebSocket):
     await websocket.send_text("Conexão WebSocket estabelecida com sucesso!")
     await stream_logs(websocket)
 
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
 
+    uvicorn.run(app, host="0.0.0.0", port=8000)
