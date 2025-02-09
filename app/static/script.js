@@ -1,37 +1,31 @@
-// Definir o logContainer
 const logContainer = document.getElementById("log-container");
 
-// Verifica o protocolo da página (HTTPS ou HTTP)
-const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+function connectWebSocket() {
+    const protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    let ws = new WebSocket(`${protocol}//${window.location.host}/ws/logs`);
 
-// Cria a conexão WebSocket com segurança (WSS para HTTPS)
-let ws = new WebSocket(`${protocol}//${window.location.host}/ws/logs`);
+    ws.onopen = () => {
+        console.log("✅ Conexão WebSocket estabelecida!");
+    };
 
-// Quando a conexão for aberta com sucesso
-ws.onopen = () => {
-    console.log("✅ Conexão WebSocket estabelecida!");
-};
+    ws.onmessage = (event) => {
+        if (event.data === "ping") {
+            ws.send("pong"); // Responde ao "ping" para manter conexão ativa
+            return;
+        }
 
-// Recebe e exibe as mensagens do servidor
-ws.onmessage = (event) => {
-    if (event.data.startsWith("[ERRO]")) {
-        logContainer.innerHTML = `<span style="color: red; font-weight: bold;">${event.data}</span>`;
-        ws.close(); // Fecha a conexão WebSocket em caso de erro
-    } else {
         logContainer.textContent += event.data + "\n";
-        logContainer.scrollTop = logContainer.scrollHeight; // Scroll automático para o final
-    }
-};
+        logContainer.scrollTop = logContainer.scrollHeight;
+    };
 
-// Lida com erros na conexão WebSocket
-ws.onerror = (error) => {
-    console.error("❌ Erro no WebSocket:", error);
-};
+    ws.onerror = (error) => {
+        console.error("❌ Erro no WebSocket:", error);
+    };
 
-// Reconecta automaticamente caso o WebSocket seja fechado
-ws.onclose = (event) => {
-    console.warn("🔌 Conexão WebSocket encerrada. Tentando reconectar...");
-    setTimeout(() => {
-        ws = new WebSocket(`${protocol}//${window.location.host}/ws/logs`);
-    }, 10000); // Tenta reconectar após 10 segundos
-};
+    ws.onclose = () => {
+        console.warn("🔌 Conexão WebSocket encerrada. Tentando reconectar...");
+        setTimeout(connectWebSocket, 5000);
+    };
+}
+
+connectWebSocket();

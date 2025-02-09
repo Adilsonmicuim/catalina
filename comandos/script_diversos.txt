@@ -1,0 +1,20 @@
+# Logs de Acesso do Nginx:
+tail -f /var/log/nginx/access_sandbox_progem_com_br.log
+
+
+# Logs de Erro do Nginx:
+tail -f /var/log/nginx/error_sandbox_progem_com_br.log
+
+
+# Logs da Aplicação FastAPI:
+journalctl -u log-tomcat.service -f
+
+
+# Como “testar” esse endpoint:
+wscat -c wss://sandbox.progem.com.br/ws/logs
+
+
+curl -i http://sandbox.progem.com.br/ws/logs
+curl -i http://sandbox.progem.com.br/log-tomcat
+curl -i http://sandbox.progem.com.br/eXtplorer
+curl -i http://sandbox.progem.com.br/progem
