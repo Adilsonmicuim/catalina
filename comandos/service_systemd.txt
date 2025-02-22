@@ -1,5 +1,5 @@
 # Criar um Serviço systemd
-vim /etc/systemd/system/log-tomcat.service
+vim /etc/systemd/system/catalina.service
 
 [Unit]
 Description=Log Viewer FastAPI Service
@@ -7,23 +7,23 @@ After=network.target
 
 [Service]
 User=root
-WorkingDirectory=/opt/tomcat/logs/log-tomcat
-ExecStart=/opt/tomcat/logs/log-tomcat/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
+WorkingDirectory=/opt/tomcat/logs/catalina
+ExecStart=/opt/tomcat/logs/catalina/venv/bin/uvicorn app.main:app --host 0.0.0.0 --port 8000
 Restart=always
-Environment="PATH=/opt/tomcat/logs/log-tomcat/venv/bin"
+Environment="PATH=/opt/tomcat/logs/catalina/venv/bin"
 
 [Install]
 WantedBy=multi-user.target
 
 
 # Reiniciar o serviço
-sudo systemctl restart log-tomcat
+sudo systemctl restart catalina
 
 # Parar o serviço
-sudo systemctl stop log-tomcat
+sudo systemctl stop catalina
 
 # Verificar status
-sudo systemctl status log-tomcat
+sudo systemctl status catalina
 
 # Ver logs em tempo real
-journalctl -u log-tomcat -f
+journalctl -u catalina -f

@@ -47,8 +47,8 @@ def do_login(username: str = Form(...), password: str = Form(...)):
             key="session",
             value="ok",
             httponly=True,
-            max_age=3600 # expira em 1 hora
-            # max_age=36000  # expira em 10 horas
+            # max_age=3600  # expira em 1 hora
+            max_age=36000  # expira em 10 horas
         )
         return response
     else:
@@ -144,7 +144,7 @@ async def stream_logs(websocket: WebSocket):
         finally:
             process.terminate()
             await websocket.close()
-            print("🔌 Conexão WebSocket encerrada.")
+            print("🟡 Conexão WebSocket encerrada.")
 
     except Exception as e:
         print(f"🔴 Erro ao aceitar WebSocket: {e}")
